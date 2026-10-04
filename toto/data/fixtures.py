@@ -25,7 +25,8 @@ def load_bulletin_file(path=None):
         odds = (m.get("odds_1"), m.get("odds_X"), m.get("odds_2"))
         out.append({"home_team": m["home_team"], "away_team": m["away_team"],
                     "odds": odds if all(odds) else None})
-    return {"kaynak": "Spor Toto resmi bülten (elle girilmiş)", "hafta": data.get("hafta") if isinstance(data, dict)
+    src = data.get("kaynak") if isinstance(data, dict) else None
+    return {"kaynak": src or "Spor Toto resmi bülten (elle girilmiş)", "hafta": data.get("hafta") if isinstance(data, dict)
             else None, "maclar": out}
 
 
