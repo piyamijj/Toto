@@ -6,9 +6,9 @@ from bs4 import BeautifulSoup
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+# Vercel'in doğrudan okuyabilmesi için ana uygulama nesnesi
 app = FastAPI()
 
-# Ön yüzün backend ile güvenli konuşabilmesi için CORS ayarı
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,13 +17,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# numaralı dosyada yer alan model mimarinizi buraya birebir entegre ediyoruz
 class UnifiedFootballModel:
     def __init__(self, transfer_multipliers, eta=0.25, max_weeks=38):
         self.transfer_multipliers = transfer_multipliers
         self.eta = eta
         self.max_weeks = max_weeks
-        self.params = {'alphas': {}, 'betas': {}, 'gamma': 0.2, 'rho': -0.1} # Default baseline
+        self.params = {'alphas': {}, 'betas': {}, 'gamma': 0.2, 'rho': -0.1}
         
     @staticmethod
     def _dixon_coles_tau(x, y, lambda_home, lambda_away, rho):
@@ -76,7 +75,6 @@ class UnifiedFootballModel:
         return {"Home_xG": lambda_home, "Away_xG": lambda_away, "Hybrid_Probs": p_hybrid, "Entropy": entropy}
 
 def fetch_spor_toto_bulletin():
-    # Web scraping fallbacksiz dinamik yapı
     return pd.DataFrame({
         'home_team': ['Galatasaray', 'Fenerbahçe', 'Trabzonspor', 'Beşiktaş', 'Başakşehir', 'Kasımpaşa', 'Sivasspor', 'Alanyaspor', 'Antalyaspor', 'Göztepe', 'Kayserispor', 'Hatayspor', 'Samsunspor', 'Rizespor', 'Bodrum FK'],
         'away_team': ['Göztepe', 'Trabzonspor', 'Beşiktaş', 'Başakşehir', 'Kasımpaşa', 'Sivasspor', 'Alanyaspor', 'Antalyaspor', 'Rizespor', 'Gaziantep FK', 'Konyaspor', 'Bodrum FK', 'Adana Demirspor', 'Galatasaray', 'Fenerbahçe'],
@@ -103,7 +101,8 @@ def analiz_et(hafta: int = 3):
         elif 1.25 <= entropy <= 1.48:
             sorted_p = np.argsort(p)[::-1][:2]
             mapping = {0: "1", 1: "X", 2: "2"}
-            pick, action, mult = "".join(sorted([mapping[sorted_p[0]], mapping[mapping[sorted_p[1]]]]), "⚠️ ÇİFTE ŞANS", 2
+            pick = "".join(sorted([mapping[sorted_p[0]], mapping[sorted_p[1]]]))
+            action, mult = "⚠️ ÇİFTE ŞANS", 2
         else:
             pick, action, mult = "1X2", "🔥 KAPAT", 3
             
