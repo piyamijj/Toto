@@ -17,6 +17,7 @@ Spor Toto bültenindeki maçlar için **gerçek tarihsel veriyle eğitilmiş Dix
 | Süper Lig fikstürü (bülten dosyası yoksa) | [API-Football](https://www.api-football.com) (api-sports.io, lisanslı) | `API_FOOTBALL_KEY` | Ücretsiz plan 100 istek/gün; ücretli planlar aylık ~19$'dan |
 | 1X2 oranları | [The Odds API](https://the-odds-api.com) (lisanslı) | `ODDS_API_KEY` | Starter ücretsiz 500 kredi/ay; 20K kredi planı ücretli |
 | Eğitim verisi (geçmiş sonuçlar) | [football-data.co.uk](https://www.football-data.co.uk/turkeym.php) sezon CSV'leri | – | Ücretsiz |
+| Eğitim verisi (güncel sezon) | ESPN skor tablosu (resmi olmayan, anahtarsız, `toto/data/espn.py`) | – | Ücretsiz |
 
 Anahtarlar **yalnızca ortam değişkeninden** okunur; `.env.example` dosyasını kopyalayın, Vercel'de *Project Settings → Environment Variables* altına girin. `.env` git'e eklenmez.
 
@@ -30,7 +31,7 @@ toto/teams.py           Kaynaklar arası takım adı eşleştirme
 scripts/train.py        Model eğitimi → data/model_params.json
 public/                 Arayüz
 tests/                  pytest
-ci-workflows/           GitHub Actions dosyaları (aşağıya bakın)
+.github/workflows/    CI, elle eğitim, haftalık eğitim + backtest
 ```
 
 ## Kurulum ve eğitim
@@ -52,10 +53,7 @@ Model eğitilmeden `/api/analiz` 503 döner.
 | `GET /api/model` | Model parametre özeti ve son backtest sonuçları |
 
 ## CI (GitHub Actions)
-`ci-workflows/` içindeki dosyalar (`ci.yml` test, `train.yml` elle eğitim, `weekly-train.yml` her pazartesi eğitim + backtest) GitHub bağlantısının `workflows` yetkisi olmadığı için otomatik eklenemedi. Etkinleştirmek için:
-```bash
-mkdir -p .github/workflows && git mv ci-workflows/*.yml .github/workflows/
-```
+`.github/workflows/` altında: `ci.yml` (test + lint), `train.yml` (elle eğitim), `weekly-train.yml` (her pazartesi 04:00 UTC: eğitim + backtest + bülten yenileme, sonuçları commitler).
 
 ## Lisans
 Henüz lisans belirlenmedi (tüm hakları saklıdır). Veri sağlayıcıların kullanım koşulları geçerlidir.
