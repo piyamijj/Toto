@@ -113,6 +113,12 @@ class HybridModel:
         return {"xg": (lam, mu), "probs": p, "entropy": entropy_bits(p), "model_probs": p_dc}
 
 
+# Az maçlı takımların uç değerlere savrulmasını engelleyen büzüşme (shrinkage):
+# gözlem sayısı azaldıkça takım gücü lig ortalamasına (0) çekilir.
+SHRINK_C = 25.0
+SHRINK_LAMBDA = 2.0
+
+
 def fit_dixon_coles(matches, xi=0.0019, ref_date: date | None = None) -> ModelParams:
     """Zaman ağırlıklı Dixon-Coles maksimum olabilirlik kestirimi.
 
@@ -130,6 +136,8 @@ def fit_dixon_coles(matches, xi=0.0019, ref_date: date | None = None) -> ModelPa
     ag = np.array([m["ag"] for m in matches])
     ref = ref_date or max(m["date"] for m in matches)
     w = np.exp(-xi * np.array([(ref - m["date"]).days for m in matches], dtype=float))
+    obs = np.bincount(hi, minlength=n) + np.bincount(ai, minlength=n)
+    shrink = SHRINK_C / (SHRINK_C + obs)
 
     def unpack(x):
         a = x[:n] - x[:n].mean()
@@ -141,7 +149,8 @@ def fit_dixon_coles(matches, xi=0.0019, ref_date: date | None = None) -> ModelPa
         mu = np.exp(a[ai] + b[hi])
         tau = np.clip(dixon_coles_tau(hg, ag, lam, mu, rho), 1e-10, None)
         ll = np.log(tau) + poisson.logpmf(hg, lam) + poisson.logpmf(ag, mu)
-        return -(w * ll).sum()
+        penalty = SHRINK_LAMBDA * ((shrink * a ** 2).sum() + (shrink * b ** 2).sum())
+        return -(w * ll).sum() + penalty
 
     x0 = np.concatenate([np.zeros(2 * n), [0.25, -0.05]])
     bounds = [(-3, 3)] * (2 * n) + [(-1, 1), (-0.2, 0.2)]
@@ -152,5 +161,6 @@ def fit_dixon_coles(matches, xi=0.0019, ref_date: date | None = None) -> ModelPa
         betas={t: round(float(b[i]), 5) for t, i in idx.items()},
         gamma=round(float(gamma), 5), rho=round(float(rho), 5),
         meta={"n_matches": len(matches), "n_teams": n, "converged": bool(res.success),
-              "ref_date": ref.isoformat(), "xi": xi},
+              "ref_date": ref.isoformat(), "xi": xi,
+              "shrinkage": {"c": SHRINK_C, "lambda": SHRINK_LAMBDA}},
     )
