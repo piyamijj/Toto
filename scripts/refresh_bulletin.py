@@ -4,7 +4,6 @@ Kullanim:  ODDS_API_KEY=... python scripts/refresh_bulletin.py
 Anahtar yoksa sessizce atlar (CI kirilmaz).
 """
 import json
-import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
