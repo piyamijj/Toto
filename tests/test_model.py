@@ -84,3 +84,14 @@ def test_strategy():
     assert pick_strategy(np.array([0.7, 0.2, 0.1]), 1.1) == ("1", "BANKO (TEK)", 1)
     assert pick_strategy(np.array([0.30, 0.25, 0.45]), 1.40)[0] == "12"
     assert pick_strategy(np.array([0.34, 0.33, 0.33]), 1.58)[0] == "1X2"
+
+
+def test_shrinkage_tames_single_match_wonder(monkeypatch):
+    import toto.model as M
+    freak = {"date": date(2024, 8, 1), "home": "Tek", "away": "Guclu", "hg": 8, "ag": 0}
+    data = _synthetic() + [freak]
+    monkeypatch.setattr(M, "SHRINK_LAMBDA", 0.0)
+    raw = fit_dixon_coles(data).alphas["tek"]
+    monkeypatch.setattr(M, "SHRINK_LAMBDA", 2.0)
+    shrunk = fit_dixon_coles(data).alphas["tek"]
+    assert abs(shrunk) < abs(raw) and raw > 1.0
