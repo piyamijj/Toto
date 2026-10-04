@@ -48,13 +48,21 @@ Model eğitilmeden `/api/analiz` 503 döner.
 | Uç nokta | Açıklama |
 |---|---|
 | `GET /api/health` | Sağlık, model ve veri kaynağı durumu |
-| `GET /api/analiz?hafta=1..38` | Bülten analizi |
+| `GET /api/analiz?hafta=1..38&butce=N` | Bülten analizi; `butce` verilirse kolon sınırı altında optimize kupon |
+| `GET /api/model` | Model parametre özeti ve son backtest sonuçları |
 
 ## CI (GitHub Actions)
-`ci-workflows/` içindeki dosyalar (`ci.yml` test, `train.yml` eğitim) GitHub bağlantısının `workflows` yetkisi olmadığı için otomatik eklenemedi. Etkinleştirmek için:
+`ci-workflows/` içindeki dosyalar (`ci.yml` test, `train.yml` elle eğitim, `weekly-train.yml` her pazartesi eğitim + backtest) GitHub bağlantısının `workflows` yetkisi olmadığı için otomatik eklenemedi. Etkinleştirmek için:
 ```bash
 mkdir -p .github/workflows && git mv ci-workflows/*.yml .github/workflows/
 ```
 
 ## Lisans
 Henüz lisans belirlenmedi (tüm hakları saklıdır). Veri sağlayıcıların kullanım koşulları geçerlidir.
+
+## Üretim özellikleri (Faz 3)
+- **Kupon optimizasyonu:** Kolon bütçesi altında tüm maçları tutturma olasılığını en büyükleyen seçim (`toto/optimizer.py`).
+- **Backtest:** `python scripts/backtest.py --test-season 2024 --train-seasons 2021 2022 2023` → Brier, log-loss, isabet (model / piyasa / hibrit), `data/backtest.json`. Eşikleri bu sonuçlara göre kalibre edin.
+- **Otomatik güncelleme:** Haftalık iş akışı modeli yeniden eğitir ve backtest'i günceller.
+- **Koruma:** IP başına dakikada 30 istek (`TOTO_RATE_LIMIT_PER_MIN`), güvenlik başlıkları, CDN önbelleği (15 dk).
+- **Hata takibi:** `SENTRY_DSN` tanımlanırsa Sentry etkinleşir (isteğe bağlı, ücretsiz plan yeterli).

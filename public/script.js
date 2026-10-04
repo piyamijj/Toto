@@ -30,7 +30,10 @@ document.getElementById('analizBtn').addEventListener('click', async () => {
   btn.disabled = true;
   messageRow(tbody, 'Model hesaplıyor...', 'text-gray-400');
   try {
-    const res = await fetch(`/api/analiz?hafta=${encodeURIComponent(week)}`);
+    const budget = Number(document.getElementById('butceInput').value);
+    const qs = new URLSearchParams({ hafta: String(week) });
+    if (Number.isInteger(budget) && budget >= 1) qs.set('butce', String(budget));
+    const res = await fetch(`/api/analiz?${qs}`);
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       throw new Error(typeof err.detail === 'string' ? err.detail : `Sunucu hatası (${res.status})`);
@@ -51,6 +54,10 @@ document.getElementById('analizBtn').addEventListener('click', async () => {
       tbody.appendChild(tr);
     }
     document.getElementById('totalColumns').textContent = data.toplam_kolon;
+    const bk = data.butce_kuponu;
+    document.getElementById('budgetInfo').textContent = bk
+      ? `Bütçe kuponu: ${bk.secimler.join(' · ')} — ${bk.kolon} kolon, tüm maçları tutturma olasılığı %${(bk.tutma_olasiligi * 100).toFixed(2)}`
+      : '';
     const meta = data.model || {};
     document.getElementById('sourceInfo').textContent =
       `Bülten: ${data.veri_kaynagi} · Model: ${meta.n_matches ?? '?'} maçla eğitildi (${meta.ref_date ?? '-'})`;

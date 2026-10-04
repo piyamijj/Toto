@@ -1,11 +1,14 @@
 """Spor Toto Hibrit Entropi Analizörü – FastAPI uygulaması (Vercel serverless)."""
 import json
 import logging
+import os
 import sys
 from pathlib import Path
 
 import numpy as np
-from fastapi import FastAPI, HTTPException, Query
+
+from fastapi import FastAPI, HTTPException, Query, Request
+from fastapi.responses import JSONResponse
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -13,12 +16,33 @@ from toto import config  # noqa: E402
 from toto.data.fixtures import get_bulletin  # noqa: E402
 from toto.data.http import DataSourceError  # noqa: E402
 from toto.model import HybridModel, ModelParams  # noqa: E402
+from toto.optimizer import optimise_coupon  # noqa: E402
+from toto.ratelimit import RateLimiter  # noqa: E402
 from toto.strategy import pick_strategy  # noqa: E402
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("toto")
 
-app = FastAPI(title="Toto Analiz API", version="2.0.0")
+if os.getenv("SENTRY_DSN"):
+    import sentry_sdk
+
+    sentry_sdk.init(dsn=os.environ["SENTRY_DSN"], traces_sample_rate=0.1)
+
+app = FastAPI(title="Toto Analiz API", version="3.0.0")
+limiter = RateLimiter(int(os.getenv("TOTO_RATE_LIMIT_PER_MIN", "30")))
+
+
+@app.middleware("http")
+async def guard(request: Request, call_next):
+    ip = (request.headers.get("x-forwarded-for") or (request.client.host if request.client else "?")).split(",")[0]
+    if request.url.path.startswith("/api/analiz") and not limiter.allow(ip.strip()):
+        return JSONResponse({"detail": "Çok fazla istek, lütfen biraz bekleyin."}, status_code=429)
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    if request.url.path.startswith("/api/analiz"):
+        response.headers["Cache-Control"] = "public, s-maxage=900, stale-while-revalidate=600"
+    return response
 
 
 def load_model() -> HybridModel:
@@ -53,7 +77,8 @@ def analyse(bulletin, week, model):
 
 
 @app.get("/api/analiz")
-def analiz_et(hafta: int = Query(..., ge=1, le=config.MAX_WEEKS, description="Sezon haftası (1-38)")):
+def analiz_et(hafta: int = Query(..., ge=1, le=config.MAX_WEEKS, description="Sezon haftası (1-38)"),
+             butce: int | None = Query(None, ge=1, le=100000, description="Maks. kolon sayısı")):
     model = load_model()
     if not model.params.trained:
         raise HTTPException(503, "Model henüz eğitilmedi. 'python scripts/train.py' çalıştırın.")
@@ -69,5 +94,19 @@ def analiz_et(hafta: int = Query(..., ge=1, le=config.MAX_WEEKS, description="Se
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from exc
     total = int(np.prod([r["carpan"] for r in results]))
+    optimised = None
+    if butce:
+        optimised = optimise_coupon([r["olasiliklar"] for r in results], butce)
+        for r, sel in zip(results, optimised["secimler"]):
+            r["butce_secimi"] = sel
     return {"maclar": results, "toplam_kolon": f"{total:,}", "veri_kaynagi": bulletin["kaynak"],
-            "model": model.params.meta}
+            "model": model.params.meta, "butce_kuponu": optimised}
+
+
+@app.get("/api/model")
+def model_info():
+    params = ModelParams.load()
+    backtest_path = config.DATA_DIR / "backtest.json"
+    backtest = json.loads(backtest_path.read_text(encoding="utf-8")) if backtest_path.exists() else None
+    return {"trained": params.trained, "meta": params.meta, "gamma": params.gamma, "rho": params.rho,
+            "takim_sayisi": len(params.alphas), "backtest": backtest}
