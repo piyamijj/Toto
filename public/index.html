@@ -17,6 +17,8 @@
             <div>
                 <label class="mr-2 text-sm font-bold">Mevcut Sezon Haftası:</label>
                 <input type="number" id="haftaInput" value="3" min="1" max="38" class="bg-gray-700 text-white p-2 rounded w-16 text-center">
+                <label class="ml-4 mr-2 text-sm font-bold" for="butceInput">Kolon bütçesi (isteğe bağlı):</label>
+                <input type="number" id="butceInput" min="1" placeholder="ör. 96" class="bg-gray-700 text-white p-2 rounded w-24 text-center">
             </div>
             <button id="analizBtn" class="bg-green-500 hover:bg-green-600 text-gray-900 font-bold py-2 px-6 rounded transition duration-200">Analiz Raporunu Oluştur</button>
         </div>
@@ -38,6 +40,8 @@
 
         <div class="mt-6 text-right text-xl font-bold bg-gray-800 p-4 rounded-lg text-yellow-400 shadow-md">
             📌 Önerilen Kupon Toplam Kolon Sayısı: <span id="totalColumns">-</span> adet
+            <div id="budgetInfo" class="text-sm text-blue-300 font-normal mt-1"></div>
+            <div id="sourceInfo" class="text-xs text-gray-400 font-normal mt-1"></div>
         </div>
         <footer class="mt-8 text-xs text-gray-500 text-center leading-relaxed">
             <p><strong>18+</strong> Bu araç yalnızca istatistiksel bilgi amaçlıdır; tahminler garanti değildir ve bahis/yatırım tavsiyesi değildir.</p>

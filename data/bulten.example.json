@@ -1,0 +1,8 @@
+{
+  "hafta": 7,
+  "kaynak_notu": "sportoto.gov.tr üzerindeki resmi bültenden kopyalayın; dosyayı data/bulten.json olarak kaydedin. Oranlar isteğe bağlı.",
+  "maclar": [
+    {"home_team": "Galatasaray", "away_team": "Göztepe", "odds_1": 1.35, "odds_X": 4.5, "odds_2": 7.5},
+    {"home_team": "Fenerbahçe", "away_team": "Trabzonspor"}
+  ]
+}
