@@ -112,9 +112,3 @@ def model_info():
             "takim_sayisi": len(params.alphas), "backtest": backtest}
 
 
-
-# GECICI TANI-2 (kaldirilacak)
-@app.api_route("/{full_path:path}", methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
-def debug_catchall2(request: Request):
-    return {"seen_path": request.url.path, "root_path": request.scope.get("root_path"),
-            "route_path": request.scope.get("route_path")}
