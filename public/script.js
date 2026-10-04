@@ -51,6 +51,9 @@ document.getElementById('analizBtn').addEventListener('click', async () => {
       tbody.appendChild(tr);
     }
     document.getElementById('totalColumns').textContent = data.toplam_kolon;
+    const meta = data.model || {};
+    document.getElementById('sourceInfo').textContent =
+      `Bülten: ${data.veri_kaynagi} · Model: ${meta.n_matches ?? '?'} maçla eğitildi (${meta.ref_date ?? '-'})`;
   } catch (e) {
     messageRow(tbody, `Hata: ${e.message}`, 'text-red-500');
   } finally {
