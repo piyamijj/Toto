@@ -110,3 +110,14 @@ def model_info():
     backtest = json.loads(backtest_path.read_text(encoding="utf-8")) if backtest_path.exists() else None
     return {"trained": params.trained, "meta": params.meta, "gamma": params.gamma, "rho": params.rho,
             "takim_sayisi": len(params.alphas), "backtest": backtest}
+
+
+# GECICI TANI: Vercel'in uygulamaya ulastirdigi gercek yolu gosterir (kaldirilacak).
+@app.api_route("/__debug_path", methods=["GET"])
+def debug_path(request: Request):
+    return {"path": request.url.path, "root_path": request.scope.get("root_path")}
+
+
+@app.api_route("/{full_path:path}", methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
+def debug_catchall(request: Request):
+    return {"seen_path": request.url.path, "note": "catchall"}
