@@ -1,78 +1,77 @@
 {
  "hafta": null,
  "kaynak": "The Odds API (Super Lig yaklasan maclari, bahisci ortalamasi)",
- "tarih": "2026-10-04",
- "not": "Haftalik yenileyin: Odds API yaklasan maclar degistikce guncelleyin.",
+ "tarih": "2026-10-05",
  "maclar": [
   {
    "home_team": "Galatasaray",
    "away_team": "Kasimpasa SK",
    "commence_time": "2026-10-09T17:00:00Z",
-   "odds_1": 1.22,
-   "odds_X": 5.97,
-   "odds_2": 10.34
+   "odds_1": 1.23,
+   "odds_X": 5.94,
+   "odds_2": 9.93
   },
   {
    "home_team": "Genclerbirligi SK",
    "away_team": "Amed SK",
    "commence_time": "2026-10-10T10:30:00Z",
-   "odds_1": 2.57,
-   "odds_X": 3.42,
+   "odds_1": 2.44,
+   "odds_X": 3.32,
    "odds_2": 2.42
   },
   {
    "home_team": "Alanyaspor",
    "away_team": "Erzurum BB",
    "commence_time": "2026-10-10T13:00:00Z",
-   "odds_1": 1.95,
-   "odds_X": 3.2,
-   "odds_2": 3.78
+   "odds_1": 1.91,
+   "odds_X": 3.15,
+   "odds_2": 3.66
   },
   {
    "home_team": "Samsunspor",
    "away_team": "Trabzonspor",
    "commence_time": "2026-10-10T13:00:00Z",
-   "odds_1": 3.38,
-   "odds_X": 3.57,
-   "odds_2": 1.95
+   "odds_1": 3.25,
+   "odds_X": 3.44,
+   "odds_2": 1.94
   },
   {
    "home_team": "Çaykur Rizespor",
    "away_team": "Fenerbahce",
    "commence_time": "2026-10-10T16:00:00Z",
-   "odds_1": 4.27,
-   "odds_X": 3.82,
-   "odds_2": 1.69
+   "odds_1": 4.12,
+   "odds_X": 3.68,
+   "odds_2": 1.67
   },
   {
    "home_team": "Torku Konyaspor",
    "away_team": "Basaksehir",
    "commence_time": "2026-10-11T10:30:00Z",
-   "odds_1": 2.52,
-   "odds_X": 3.35,
-   "odds_2": 2.52
+   "odds_1": 2.49,
+   "odds_X": 3.23,
+   "odds_2": 2.41
   },
   {
    "home_team": "Gazişehir Gaziantep",
    "away_team": "Çorum FK",
    "commence_time": "2026-10-11T13:00:00Z",
-   "odds_1": 2.55,
-   "odds_X": 3.25,
-   "odds_2": 2.5
+   "odds_1": 2.52,
+   "odds_X": 3.27,
+   "odds_2": 2.57
   },
   {
    "home_team": "Besiktas JK",
    "away_team": "Kocaelispor",
    "commence_time": "2026-10-11T16:00:00Z",
-   "odds_1": 1.23,
-   "odds_X": 5.58,
-   "odds_2": 10.43
+   "odds_1": 1.24,
+   "odds_X": 5.45,
+   "odds_2": 10.11
   },
   {
    "home_team": "Eyüpspor",
    "away_team": "Goztepe",
    "commence_time": "2026-10-12T17:00:00Z",
-   "odds_1": 3.56,
+   "odds_1": 3.59,
    "odds_X": 3.54,
    "odds_2": 1.88
   }
