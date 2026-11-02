@@ -1,95 +1,87 @@
 {
  "hafta": null,
  "kaynak": "The Odds API (Super Lig yaklasan maclari, bahisci ortalamasi)",
- "tarih": "2026-10-26",
+ "tarih": "2026-11-02",
  "maclar": [
   {
-   "home_team": "Besiktas JK",
-   "away_team": "Basaksehir",
-   "commence_time": "2026-10-26T16:00:00Z",
-   "odds_1": 1.35,
-   "odds_X": 5.31,
-   "odds_2": 7.26
+   "home_team": "Genclerbirligi SK",
+   "away_team": "Alanyaspor",
+   "commence_time": "2026-11-02T17:00:00Z",
+   "odds_1": 2.61,
+   "odds_X": 3.26,
+   "odds_2": 2.61
   },
   {
-   "home_team": "Çaykur Rizespor",
-   "away_team": "Trabzonspor",
-   "commence_time": "2026-10-26T16:00:00Z",
-   "odds_1": 3.6,
-   "odds_X": 3.82,
-   "odds_2": 1.88
+   "home_team": "Gazişehir Gaziantep",
+   "away_team": "Kasimpasa SK",
+   "commence_time": "2026-11-06T17:00:00Z",
+   "odds_1": 2.52,
+   "odds_X": 3.24,
+   "odds_2": 2.63
+  },
+  {
+   "home_team": "Eyüpspor",
+   "away_team": "Kocaelispor",
+   "commence_time": "2026-11-07T10:30:00Z",
+   "odds_1": 3.64,
+   "odds_X": 3.26,
+   "odds_2": 1.97
+  },
+  {
+   "home_team": "Samsunspor",
+   "away_team": "Torku Konyaspor",
+   "commence_time": "2026-11-07T13:00:00Z",
+   "odds_1": 2.24,
+   "odds_X": 3.28,
+   "odds_2": 2.99
   },
   {
    "home_team": "Galatasaray",
+   "away_team": "Amed SK",
+   "commence_time": "2026-11-07T16:00:00Z",
+   "odds_1": 1.41,
+   "odds_X": 4.77,
+   "odds_2": 6.04
+  },
+  {
+   "home_team": "Goztepe",
+   "away_team": "Basaksehir",
+   "commence_time": "2026-11-07T16:00:00Z",
+   "odds_1": 1.96,
+   "odds_X": 3.63,
+   "odds_2": 3.33
+  },
+  {
+   "home_team": "Çaykur Rizespor",
+   "away_team": "Erzurum BB",
+   "commence_time": "2026-11-08T10:30:00Z",
+   "odds_1": 1.9,
+   "odds_X": 3.45,
+   "odds_2": 3.54
+  },
+  {
+   "home_team": "Çorum FK",
    "away_team": "Fenerbahce",
-   "commence_time": "2026-10-26T18:30:00Z",
-   "odds_1": 1.99,
-   "odds_X": 3.82,
-   "odds_2": 3.24
+   "commence_time": "2026-11-08T13:00:00Z",
+   "odds_1": 4.06,
+   "odds_X": 3.83,
+   "odds_2": 1.71
   },
   {
-   "home_team": "Torku Konyaspor",
-   "away_team": "Galatasaray",
-   "commence_time": "2026-10-30T17:00:00Z",
-   "odds_1": 4.64,
-   "odds_X": 3.99,
-   "odds_2": 1.6
+   "home_team": "Alanyaspor",
+   "away_team": "Trabzonspor",
+   "commence_time": "2026-11-08T15:30:00Z",
+   "odds_1": 3.69,
+   "odds_X": 3.66,
+   "odds_2": 1.82
   },
   {
-   "home_team": "Erzurum BB",
-   "away_team": "Çorum FK",
-   "commence_time": "2026-10-31T10:30:00Z",
-   "odds_1": 2.53,
-   "odds_X": 3.13,
-   "odds_2": 2.44
-  },
-  {
-   "home_team": "Kocaelispor",
-   "away_team": "Çaykur Rizespor",
-   "commence_time": "2026-10-31T13:00:00Z",
-   "odds_1": 2.43,
-   "odds_X": 3.19,
-   "odds_2": 2.43
-  },
-  {
-   "home_team": "Fenerbahce",
-   "away_team": "Goztepe",
-   "commence_time": "2026-10-31T16:00:00Z",
-   "odds_1": 1.33,
-   "odds_X": 4.98,
-   "odds_2": 7.36
-  },
-  {
-   "home_team": "Amed SK",
-   "away_team": "Eyüpspor",
-   "commence_time": "2026-11-01T10:30:00Z",
+   "home_team": "Besiktas JK",
+   "away_team": "Genclerbirligi SK",
+   "commence_time": "2026-11-08T18:00:00Z",
    "odds_1": 1.27,
-   "odds_X": 5.3,
-   "odds_2": 8.98
-  },
-  {
-   "home_team": "Basaksehir",
-   "away_team": "Samsunspor",
-   "commence_time": "2026-11-01T13:00:00Z",
-   "odds_1": 1.82,
-   "odds_X": 3.73,
-   "odds_2": 3.65
-  },
-  {
-   "home_team": "Trabzonspor",
-   "away_team": "Gazişehir Gaziantep",
-   "commence_time": "2026-11-01T13:00:00Z",
-   "odds_1": 1.36,
-   "odds_X": 4.79,
-   "odds_2": 6.7
-  },
-  {
-   "home_team": "Kasimpasa SK",
-   "away_team": "Besiktas JK",
-   "commence_time": "2026-11-01T16:00:00Z",
-   "odds_1": 4.2,
-   "odds_X": 3.74,
-   "odds_2": 1.7
+   "odds_X": 5.24,
+   "odds_2": 8.69
   }
  ]
 }
